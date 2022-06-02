@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr"">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angle horaire</title>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <script src="bootstrap.bundle.min.js"></script>
+</head>
+<body">
+  <p>Cette page permet de connaître l'angle horaire d'un objet céleste connaissant son ascension droite.</p>
+  <p>L'observateur est supposé être au niveau de la mer.</p>
+  <p>Connaître l'angle horaire d'un astre permet de le localiser facilement grâce à la bague de graduations de l'axe principal d'une monture équatoriale quand celle-ci est correctement positionnée.</p>
+
+  <div class="container">
+ 
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Latitude (en degrés décimaux) du lieu d'observation (équateur par défaut)</label>
+      </div>
+      <div class="col-md-5">
+          <input id="latdegdec" type="text" value="0.0" oninput="changeLatitudeDegre()">
+      </div>
+      <div class="col-md-1">
+        <input type="radio" id="north" name="hemisphere" value="1" checked>
+        <label for="north">Nord</label>
+        <br>
+        <input type="radio" id="south" name="hemisphere" value="-1">
+        <label for="south">Sud</label>
+      </div>
+    </div>
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Latitude (en degrés sexadécimaux) du lieu d'observation (équateur par défaut)</label>
+      </div>
+      <div class="col-md-1">
+        <input id="latdegsexd" type="text" value="0" oninput="changeLatitudeDMS()">
+        <input id="latdegsexm" type="text" value="0" oninput="changeLatitudeDMS()">
+        <input id="latdegsexs" type="text" value="0.0" oninput="changeLatitudeDMS()">
+      </div>
+    </div>
+
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Longitude (en degrés décimaux) du lieu d'observation (Greenwich par défaut)</label>
+      </div>
+      <div class="col-md-5">
+          <input id="londegdec" type="text" value="0.0" oninput="changeLongitudeDegre()">
+      </div>
+      <div class="col-md-1">
+        <input type="radio" id="east" name="greenwichmeridian" value="1" checked>
+        <label for="east">Est</label>
+        <br>
+        <input type="radio" id="west" name="greenwichmeridian" value="-1">
+        <label for="west">Ouest</label>
+      </div>
+    </div>
+    <div class="row border rounded mb-2 p-3">
+        <div class="col-md-6">
+          <label>Longitude (en degrés sexadécimaux) du lieu d'observation (Greenwich par défaut)</label>
+        </div>
+      <div class="col-md-1">
+        <input id="londegsexd" type="text" value="0" oninput="changeLongitudeDMS()">
+        <input id="londegsexm" type="text" value="0" oninput="changeLongitudeDMS()">
+        <input id="londegsexs" type="text" value="0.0" oninput="changeLongitudeDMS()">
+      </div>
+    </div>
+
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Ascension droite (en degrés décimaux) de l'objet céleste recherché (point vernal par défaut)</label>
+      </div>
+      <div class="col-md-5">
+          <input id="addeg" type="text" value="0.0" oninput="changeRADegre()">
+      </div>
+    </div>
+
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Ascension droite de l'objet céleste recherché (point vernal par défaut)</label>
+      </div>
+      <div class="col-md-1">
+        <input id="adh" type="text" value="0" oninput="changeRA()">
+        <input id="adm" type="text" value="0" oninput="changeRA()">
+        <input id="ads" type="text" value="0.0" oninput="changeRA()">
+      </div>
+    </div>
+
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Déclinaison (en degrés décimaux) de l'objet céleste recherché (point vernal par défaut)</label>
+      </div>
+      <div class="col-md-5">
+          <input id="decdeg" type="text" value="0.0" oninput="changeDECDegre()">
+      </div>
+      <div class="col-md-1">
+        <input type="radio" id="decnorth" name="dechemisphere" value="1" checked>
+        <label for="decnorth">Nord</label>
+        <br>
+        <input type="radio" id="decsouth" name="dechemisphere" value="-1">
+        <label for="decsouth">Sud</label>
+      </div>
+    </div>
+
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        <label>Déclinaison (en degrés sexadécimaux) de l'objet céleste recherché (point vernal par défaut)</label>
+      </div>
+      <div class="col-md-1">
+        <input id="decd" type="text" value="0" oninput="changeDEC()">
+        <input id="decm" type="text" value="0" oninput="changeDEC()">
+        <input id="decs" type="text" value="0.0" oninput="changeDEC()">
+      </div>
+    </div>
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+        Temps sidéral local
+      </div>
+      <div class="col-md-1">
+        <span id="localsideraltime"></span>
+      </div>
+    </div>
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+         Angle horaire
+      </div>
+      <div class="col-md-1">
+        <span id="hourangle"></span>
+      </div>
+    </div>
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+         Azimuth (Nord = 0°)
+      </div>
+      <div class="col-md-1">
+        <span id="azimuth"></span>
+      </div>
+    </div>
+    <div class="row border rounded mb-2 p-3">
+      <div class="col-md-6">
+         Hauteur
+      </div>
+      <div class="col-md-4">
+        <span id="hauteur"></span>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="astro.js"></script>
+</body>
+</html>
