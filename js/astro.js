@@ -142,7 +142,11 @@ async function mainLoop() {
     ha = lst - rightAscension;
     hourangle.innerText = AA.degreeToHMS(ha);
 
-    azimutalCoordinates = AA.equatorialToAzimutal(ha, latitude, declination);
+    azimutalCoordinates = AA.equatorialToAzimutal(
+                              ha, 
+                              latitude * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
+                              declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
+                              );
     azimuth.innerText = azimutalCoordinates.A;
     hauteur.innerText = azimutalCoordinates.h >= 0 ? azimutalCoordinates.h : "sous l'horizon (" + azimutalCoordinates.h + ")";
   }
