@@ -32,16 +32,16 @@ export function julianDay(D, M, Y) {
 
 export function sideralTimeGreewich(julianday) {
   var T     = (julianday - 2451545.0) / 36525,
-      temp  = (
+      stg  = (
               + 280.46061837
               + 360.98564736629 * (julianday - 2451545)
               + 0.000387933 * T * T
               - (T * T * T) / 38710000
               ) % 360;//opération modulo peut donner un résultat négatif...
 
-  if(temp < 0) temp += 360;//...si c'est le cas, ajouter 360°
+  if(stg < 0) stg += 360;//...si c'est le cas, ajouter 360°
   
-  return temp;
+  return stg;
 }
 
 export function degreeToHMS(degreeDecimal) {
@@ -60,25 +60,26 @@ export function degreeToHMS(degreeDecimal) {
   return string
 }
 
-export function equatorialToAzimuth(ha, latitude, declination) {
-  var temp = (
+export function equatorialToAzimutal(ha, latitude, declination) {
+  var A = (
               Math.atan2(
                 Math.sin(ha * Math.PI / 180),
                 Math.cos(ha * Math.PI / 180) * Math.sin(latitude * Math.PI / 180)
                   - Math.tan(declination * Math.PI / 180) * Math.cos(latitude * Math.PI / 180)
               ) * 180 / Math.PI + 180
-            ) % 360;
+          ) % 360;
   
-  if(temp < 0) temp += 360;
+  if(A < 0) A += 360;
 
-  return temp;
-}
-
-export function equatorialToElevation(ha, latitude, declination) {
-  return Math.asin(
-          Math.sin(latitude * Math.PI / 180) * Math.sin(declination* Math.PI / 180)
+  var h = Math.asin(
+          Math.sin(latitude * Math.PI / 180) * Math.sin(declination * Math.PI / 180)
           + Math.cos(latitude * Math.PI / 180)
             * Math.cos(declination * Math.PI / 180)
             * Math.cos(ha * Math.PI / 180)
         ) * 180 / Math.PI;
+  
+  return {
+    A : A,
+    h : h
+  };
 }

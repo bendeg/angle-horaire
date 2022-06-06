@@ -131,33 +131,19 @@ function sleep(ms) {
 async function mainLoop() {
   var lst,
       ha,
-      A,
-      h;
+      azimutalCoordinates;
   
   while(true) {        
     await sleep(1000);
     
     lst = AA.localSideralTime(longitude * (document.getElementsByName("greenwichmeridian")[0].checked ? 1 : -1) );
     localsideraltime.innerText = AA.degreeToHMS(lst);
+    
     ha = lst - rightAscension;
     hourangle.innerText = AA.degreeToHMS(ha);
-    
-    A = AA.equatorialToAzimuth(
-      ha, 
-      latitude * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
-      declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
-    );
 
-    azimuth.innerText = A;
-    
-    h = AA.equatorialToElevation(
-      ha,
-      latitude * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
-      declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
-    );
-
-    hauteur.innerText = h >= 0 ? h : "sous l'horizon (" + h + ")";
+    azimutalCoordinates = AA.equatorialToAzimutal(ha, latitude, declination);
+    azimuth.innerText = azimutalCoordinates.A;
+    hauteur.innerText = azimutalCoordinates.h >= 0 ? azimutalCoordinates.h : "sous l'horizon (" + azimutalCoordinates.h + ")";
   }
 }
-
-
