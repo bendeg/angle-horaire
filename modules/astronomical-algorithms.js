@@ -22,7 +22,7 @@ export function julianDay(D, M, Y) {
 
   A = Math.trunc(Y / 100);
 
-  if(Y < 1582) B = 0;//si l'année est une date dans le calendrier julien
+  if(Y < 1582) B = 0;//si l'année est une année du calendrier julien
   else B = Math.trunc(2 - A + Math.trunc(A / 4));
   
   return  Math.trunc(365.25 * (Y + 4716))
