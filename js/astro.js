@@ -1,4 +1,4 @@
-import * as AA from "./astronomical-algorithms.js";
+import * as AA from "../modules/astronomical-algorithms.js";
 
 var latitude,
     longitude,
