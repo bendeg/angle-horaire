@@ -59,3 +59,26 @@ export function degreeToHMS(degreeDecimal) {
   
   return string
 }
+
+export function equatorialToAzimuth(ha, latitude, declination) {
+  var temp = (
+              Math.atan2(
+                Math.sin(ha * Math.PI / 180),
+                Math.cos(ha * Math.PI / 180) * Math.sin(latitude * Math.PI / 180)
+                  - Math.tan(declination * Math.PI / 180) * Math.cos(latitude * Math.PI / 180)
+              ) * 180 / Math.PI + 180
+            ) % 360;
+  
+  if(temp < 0) temp += 360;
+
+  return temp;
+}
+
+export function equatorialToElevation(ha, latitude, declination) {
+  return Math.asin(
+          Math.sin(latitude * Math.PI / 180) * Math.sin(declination* Math.PI / 180)
+          + Math.cos(latitude * Math.PI / 180)
+            * Math.cos(declination * Math.PI / 180)
+            * Math.cos(ha * Math.PI / 180)
+        ) * 180 / Math.PI;
+}

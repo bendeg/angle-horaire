@@ -142,22 +142,20 @@ async function mainLoop() {
     ha = lst - rightAscension;
     hourangle.innerText = AA.degreeToHMS(ha);
     
-    A = (Math.atan2(
-      Math.sin(ha * Math.PI / 180),
-      Math.cos(ha * Math.PI / 180) * Math.sin(latitude  * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1) * Math.PI / 180)
-      - Math.tan(declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1) * Math.PI / 180) * Math.cos(latitude  * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1) * Math.PI / 180)
-      ) * 180 / Math.PI + 180) % 360;
-    
-    if(A < 0) A += 360;
-    
+    A = AA.equatorialToAzimuth(
+      ha, 
+      latitude * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
+      declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
+    );
+
     azimuth.innerText = A;
     
-    h = Math.asin(Math.sin(latitude  * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1) * Math.PI / 180) * Math.sin(declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1) * Math.PI / 180)
-                + Math.cos(latitude  * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1) * Math.PI / 180)
-                  * Math.cos(declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1) * Math.PI / 180)
-                  * Math.cos(ha * Math.PI / 180)
-        ) * 180 / Math.PI;
-    
+    h = AA.equatorialToElevation(
+      ha,
+      latitude * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
+      declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
+    );
+
     hauteur.innerText = h >= 0 ? h : "sous l'horizon (" + h + ")";
   }
 }
