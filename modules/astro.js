@@ -146,7 +146,7 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
     
-    lst = AA.Algorithms.localSideralTime(longitude * (document.getElementsByName("greenwichmeridian")[0].checked ? 1 : -1) );
+    lst = AA.Algorithms.localSideralTime(longitude * (document.getElementsByName("greenwichmeridian")[1].checked ? 1 : -1) );
     localsideraltime.innerText = AA.Algorithms.degreeToHMS(lst);
     
     ha = lst - rightAscension;
