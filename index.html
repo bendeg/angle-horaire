@@ -11,111 +11,130 @@
   <script src="js/bootstrap.bundle.min.js"></script>
   <script type="module" src="modules/astro.js"></script>
 </head>
-<body">
-  <p>Cette page permet de connaître l'angle horaire d'un objet céleste connaissant son ascension droite.</p>
-  <p>Connaître l'angle horaire d'un astre permet de le localiser facilement grâce à la bague de graduations de l'axe principal d'une monture équatoriale quand celle-ci est correctement positionnée.</p>
 
-  <div class="container">
- 
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Latitude (en degrés décimaux) du lieu d'observation (équateur par défaut)</label>
-      </div>
-      <div class="col-md-5">
-          <input id="latdegdec" type="text" value="0.0" oninput="changeLatitudeDegre()">
-      </div>
-      <div class="col-md-1">
-        <input type="radio" id="north" name="hemisphere" value="1" checked>
-        <label for="north">Nord</label>
-        <br>
-        <input type="radio" id="south" name="hemisphere" value="-1">
-        <label for="south">Sud</label>
-      </div>
-    </div>
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Latitude (en degrés sexadécimaux) du lieu d'observation (équateur par défaut)</label>
-      </div>
-      <div class="col-md-1">
-        <input id="latdegsexd" type="text" value="0" oninput="changeLatitudeDMS()">
-        <input id="latdegsexm" type="text" value="0" oninput="changeLatitudeDMS()">
-        <input id="latdegsexs" type="text" value="0.0" oninput="changeLatitudeDMS()">
-      </div>
-    </div>
-
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Longitude (en degrés décimaux) du lieu d'observation (Greenwich par défaut)</label>
-      </div>
-      <div class="col-md-5">
-          <input id="londegdec" type="text" value="0.0" oninput="changeLongitudeDegre()">
-      </div>
-      <div class="col-md-1">
-        <input type="radio" id="east" name="greenwichmeridian" value="1" checked>
-        <label for="east">Est</label>
-        <br>
-        <input type="radio" id="west" name="greenwichmeridian" value="-1">
-        <label for="west">Ouest</label>
-      </div>
-    </div>
-    <div class="row border rounded mb-2 p-3">
-        <div class="col-md-6">
-          <label>Longitude (en degrés sexadécimaux) du lieu d'observation (Greenwich par défaut)</label>
+  <div id="root-container" class="container">
+    <p>Cette page permet de connaître l'angle horaire d'un objet céleste connaissant son ascension droite.</p>
+    <p>Connaître l'angle horaire d'un astre permet de le localiser facilement grâce à la bague de graduations de l'axe principal d'une monture équatoriale quand celle-ci est correctement positionnée.</p>
+   
+    <div class="row border rounded mb-2 p-1">
+      <div class="row p-1">
+        <div class="col-md-4">
+          <label>Latitude (équateur par défaut)</label>
         </div>
-      <div class="col-md-1">
-        <input id="londegsexd" type="text" value="0" oninput="changeLongitudeDMS()">
-        <input id="londegsexm" type="text" value="0" oninput="changeLongitudeDMS()">
-        <input id="londegsexs" type="text" value="0.0" oninput="changeLongitudeDMS()">
+        <div id="divlatdeg" class="col-md-4">
+          <label>Degrés décimaux</label>
+        </div>
+        <div class="col-md-4">
+          <input id="north" type="radio" name="hemisphere" value="1" checked>
+          <label for="north">Nord</label>
+          <input id="south" type="radio" name="hemisphere" value="-1">
+          <label for="south">Sud</label>
+        </div>
+      </div>
+      <div class="row p-1">
+        <div id="divlatd" class="col-md-4">
+          <label>Degrés</label>
+         </div>
+        <div id="divlatm" class="col-md-4">
+          <label>Minutes</label>
+        </div>
+        <div id="divlats" class="col-md-4">
+          <label>Secondes</label>
+          </div>
       </div>
     </div>
 
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Ascension droite (en degrés décimaux) de l'objet céleste recherché (point vernal par défaut)</label>
+    <div class="row border rounded mb-2 p-1">
+      <div class="row p-1">
+        <div class="col-md-4">
+          <label>Longitude (Greenwich par défaut)</label>
+        </div>
+        <div class="col-md-4">
+            <label>Degrés décimaux</label>
+            <input id="londegdec" type="text" value="0.0">
+          </div>
+        <div class="col-md-4">
+          <input type="radio" id="west" name="greenwichmeridian" value="-1">
+          <label for="west">Ouest</label>
+          <input type="radio" id="east" name="greenwichmeridian" value="1" checked>
+          <label for="east">Est</label>
+        </div>
       </div>
-      <div class="col-md-5">
-          <input id="addeg" type="text" value="0.0" oninput="changeRADegre()">
-      </div>
-    </div>
-
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Ascension droite de l'objet céleste recherché (point vernal par défaut)</label>
-      </div>
-      <div class="col-md-1">
-        <input id="adh" type="text" value="0" oninput="changeRA()">
-        <input id="adm" type="text" value="0" oninput="changeRA()">
-        <input id="ads" type="text" value="0.0" oninput="changeRA()">
-      </div>
-    </div>
-
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Déclinaison (en degrés décimaux) de l'objet céleste recherché (point vernal par défaut)</label>
-      </div>
-      <div class="col-md-5">
-          <input id="decdeg" type="text" value="0.0" oninput="changeDECDegre()">
-      </div>
-      <div class="col-md-1">
-        <input type="radio" id="decnorth" name="dechemisphere" value="1" checked>
-        <label for="decnorth">Nord</label>
-        <br>
-        <input type="radio" id="decsouth" name="dechemisphere" value="-1">
-        <label for="decsouth">Sud</label>
+      <div class="row p-1">
+        <div class="col-md-4">
+          <label>Degrés</label>
+          <input id="londegsexd" type="text" value="0">
+        </div>
+        <div class="col-md-4">
+          <label>Minutes</label>
+          <input id="londegsexm" type="text" value="0">
+        </div>
+        <div class="col-md-4">
+          <label>Secondes</label>
+          <input id="londegsexs" type="text" value="0.0">
+        </div>
       </div>
     </div>
 
-    <div class="row border rounded mb-2 p-3">
-      <div class="col-md-6">
-        <label>Déclinaison (en degrés sexadécimaux) de l'objet céleste recherché (point vernal par défaut)</label>
+    <div class="row border rounded mb-2 p-1">
+      <div class="row p-1">
+        <div class="col-md-6">
+          <label>Ascension droite (point vernal par défaut)</label>
+        </div>
+        <div class="col-md-6">
+          <label>Degrés décimaux</label>
+          <input id="addeg" type="text" value="0.0">
+        </div>
       </div>
-      <div class="col-md-1">
-        <input id="decd" type="text" value="0" oninput="changeDEC()">
-        <input id="decm" type="text" value="0" oninput="changeDEC()">
-        <input id="decs" type="text" value="0.0" oninput="changeDEC()">
+      <div class="row p-1">
+        <div class="col-md-4">
+          <label>Heures</label>
+          <input id="adh" type="text" value="0">
+        </div>
+        <div class="col-md-4">
+          <label>Minutes</label>
+          <input id="adm" type="text" value="0">
+        </div>
+        <div class="col-md-4">
+          <label>Secondes</label>
+          <input id="ads" type="text" value="0.0">
+        </div>
       </div>
     </div>
-    <div class="row border rounded mb-2 p-3">
+
+    <div class="row border rounded mb-2 p-1">
+      <div class="row p-1">
+        <div class="col-md-4">
+          <label>Déclinaison (point vernal par défaut)</label>
+        </div>
+        <div class="col-md-4">
+          <label>Degrés décimaux</label>
+          <input id="decdeg" type="text" value="0.0">
+        </div>
+        <div class="col-md-4">
+          <input type="radio" id="decnorth" name="dechemisphere" value="1" checked>
+          <label for="decnorth">Nord</label>
+            <input type="radio" id="decsouth" name="dechemisphere" value="-1">
+          <label for="decsouth">Sud</label>
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col-md-4">
+          <label>Degrés</label>
+          <input id="decd" type="text" value="0">
+        </div>
+        <div class="col-md-4">
+          <label>Minutes</label>
+          <input id="decm" type="text" value="0">
+        </div>
+        <div class="col-md-4">
+          <label>Secondes</label>
+          <input id="decs" type="text" value="0.0">
+        </div>
+      </div>
+    </div>
+
+    <div class="row border rounded mb-2 p-1">
       <div class="col-md-6">
         Temps sidéral local
       </div>
@@ -123,7 +142,7 @@
         <span id="localsideraltime"></span>
       </div>
     </div>
-    <div class="row border rounded mb-2 p-3">
+    <div class="row border rounded mb-2 p-1">
       <div class="col-md-6">
          Angle horaire
       </div>
@@ -131,7 +150,7 @@
         <span id="hourangle"></span>
       </div>
     </div>
-    <div class="row border rounded mb-2 p-3">
+    <div class="row border rounded mb-2 p-1">
       <div class="col-md-6">
          Azimuth (Nord = 0°)
       </div>
@@ -139,7 +158,7 @@
         <span id="azimuth"></span>
       </div>
     </div>
-    <div class="row border rounded mb-2 p-3">
+    <div class="row border rounded mb-2 p-1">
       <div class="col-md-6">
          Hauteur
       </div>
@@ -148,5 +167,4 @@
       </div>
     </div>
   </div>
-</body>
 </html>
