@@ -25,7 +25,7 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
     
-    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementsByName("greenwichmeridian")[1].checked ? 1 : -1) );
+    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
     localsideraltime.innerText = AA.Algorithms.degreeToHMS(lst);
     
     ha = lst - parseFloat(ra.getValue());
@@ -33,8 +33,8 @@ async function mainLoop() {
 
     azimutalCoordinates = AA.Algorithms.equatorialToAzimutal(
                               ha, 
-                              parseFloat(lat.getValue()) * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
-                              parseFloat(dec.getValue()) * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
+                              parseFloat(lat.getValue()) * (document.getElementById("hemisphere").checked ? 1 : -1),
+                              parseFloat(dec.getValue()) * (document.getElementById("dechemisphere").checked ? 1 : -1)
                               );
     azimuth.innerText = azimutalCoordinates.A;
     hauteur.innerText = azimutalCoordinates.h >= 0 ? azimutalCoordinates.h : "sous l'horizon (" + azimutalCoordinates.h + ")";
