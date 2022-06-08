@@ -21,7 +21,7 @@
         <div class="col-md-4">
           <label>Latitude (équateur par défaut)</label>
         </div>
-        <div id="divlatdeg" class="col-md-4">
+        <div id="divlat" class="col-md-4">
           <label>Degrés décimaux</label>
         </div>
         <div class="col-md-4">
@@ -49,9 +49,9 @@
         <div class="col-md-4">
           <label>Longitude (Greenwich par défaut)</label>
         </div>
-        <div class="col-md-4">
+        <div id="divlon" class="col-md-4">
             <label>Degrés décimaux</label>
-            <input id="londegdec" type="text" value="0.0">
+            <!-- <input id="long" type="text" value="0.0"> -->
           </div>
         <div class="col-md-4">
           <input type="radio" id="west" name="greenwichmeridian" value="-1">
@@ -61,17 +61,17 @@
         </div>
       </div>
       <div class="row p-1">
-        <div class="col-md-4">
+        <div id="divlond" class="col-md-4">
           <label>Degrés</label>
-          <input id="londegsexd" type="text" value="0">
+          <!-- <input id="divlondegsexd" type="text" value="0"> -->
         </div>
-        <div class="col-md-4">
+        <div id="divlonm" class="col-md-4">
           <label>Minutes</label>
-          <input id="londegsexm" type="text" value="0">
+          <!-- <input id="londegsexm" type="text" value="0"> -->
         </div>
-        <div class="col-md-4">
+        <div id="divlons" class="col-md-4">
           <label>Secondes</label>
-          <input id="londegsexs" type="text" value="0.0">
+          <!-- <input id="londegsexs" type="text" value="0.0"> -->
         </div>
       </div>
     </div>
@@ -152,7 +152,7 @@
     </div>
     <div class="row border rounded mb-2 p-1">
       <div class="col-md-6">
-         Azimuth (Nord = 0°)
+         Azimuth (Nord = 0°, Est = 90°)
       </div>
       <div class="col-md-1">
         <span id="azimuth"></span>

@@ -1,20 +1,12 @@
 import * as AA from "./astronomical-algorithms.js";
 import * as Inputs from "./inputs.js";
 
-let latitude,
-    longitude,
+let 
     rightAscension,
     declination,
 
-    latdegdec = new Inputs.InputText("latdeg", "divlatdeg", "0.0", changeLatitudeDegre),
-    latdegd = new Inputs.InputText("latdegd", "divlatd", "0", changeLatitudeDMS),
-    latdegm = new Inputs.InputText("latdegm", "divlatm", "0", changeLatitudeDMS),
-    latdegs = new Inputs.InputText("latdegs", "divlats", "0.0", changeLatitudeDMS),
-
-    londegdec = document.getElementById("londegdec"),
-    londegsexd = document.getElementById("londegsexd"),
-    londegsexm = document.getElementById("londegsexm"),
-    londegsexs = document.getElementById("londegsexs"),
+    lat = new Inputs.InputTextDMS("lat", "divlat", "0.0"),
+    lon = new Inputs.InputTextDMS("lon", "divlon", "0.0"),
 
     addeg = document.getElementById("addeg"),
     adh = document.getElementById("adh"),
@@ -31,11 +23,6 @@ let latitude,
     azimuth = document.getElementById("azimuth"),
     hauteur = document.getElementById("hauteur");
 
-londegdec.oninput = changeLongitudeDegre;
-londegsexd.oninput = changeLongitudeDMS;
-londegsexm.oninput = changeLongitudeDMS;
-londegsexs.oninput = changeLongitudeDMS;
-
 addeg.oninput = changeRADegre;
 adh.oninput = changeRA;
 adm.oninput = changeRA;
@@ -46,8 +33,6 @@ decd.oninput = changeDEC;
 decm.oninput = changeDEC;
 decs.oninput = changeDEC;
 
-changeLongitudeDegre();
-changeLatitudeDegre();
 changeRA();
 changeDEC();
 mainLoop();
@@ -90,50 +75,6 @@ function changeDEC() {
   decdeg.value = declination;
 }
 
-function changeLongitudeDegre() {
-  var temp, temptrunc;
-
-  longitude = parseFloat(londegdec.value);
-
-  temptrunc = Math.trunc(longitude);
-  londegsexd.value = temptrunc;
-
-  temp = (longitude - temptrunc) * 60;
-  temptrunc = Math.trunc(temp);
-  londegsexm.value = Math.trunc(temptrunc);
-
-  temp = (temp - temptrunc) * 60;
-  londegsexs.value = temp; 
-}
-
-function changeLongitudeDMS() {
-  longitude = parseFloat(londegsexd.value) + parseFloat(londegsexm.value) / 60 + parseFloat(londegsexs.value) / 3600;
-  
-  londegdec.value = longitude;
-}
-
-function changeLatitudeDegre() {
-  var temp, temptrunc;
-  //latitude = parseFloat(latdegdec.value);
-  latitude = parseFloat(latdegdec.getValue());
-
-  temptrunc = Math.trunc(latitude);
-  latdegd.setValue(temptrunc);
-
-  temp = (latitude - temptrunc) * 60;
-  temptrunc = Math.trunc(temp);
-  latdegm.setValue(temptrunc);
-
-  temp = (temp - temptrunc) * 60;
-  latdegs.setValue(temp);  
-}
-
-function changeLatitudeDMS() {
-  latitude = parseFloat(latdegd.getValue()) + parseFloat(latdegm.getValue()) / 60 + parseFloat(latdegs.getValue()) / 3600;
-  
-  latdegdec.setValue(latitude);
-}
-
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -146,7 +87,7 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
     
-    lst = AA.Algorithms.localSideralTime(longitude * (document.getElementsByName("greenwichmeridian")[1].checked ? 1 : -1) );
+    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementsByName("greenwichmeridian")[1].checked ? 1 : -1) );
     localsideraltime.innerText = AA.Algorithms.degreeToHMS(lst);
     
     ha = lst - rightAscension;
@@ -154,7 +95,7 @@ async function mainLoop() {
 
     azimutalCoordinates = AA.Algorithms.equatorialToAzimutal(
                               ha, 
-                              latitude * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
+                              parseFloat(lat.getValue()) * (document.getElementsByName("hemisphere")[0].checked ? 1 : -1),
                               declination * (document.getElementsByName("dechemisphere")[0].checked ? 1 : -1)
                               );
     azimuth.innerText = azimutalCoordinates.A;
