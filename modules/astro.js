@@ -27,11 +27,24 @@ map.on('singleclick', function (evt) {
 
     // convert coordinate to EPSG-4326
     var epsg4326LongLat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-    //console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
+
+    if(epsg4326LongLat[1] < 0){
+      epsg4326LongLat[1] = - epsg4326LongLat[1];
+      document.getElementById("hemisphere").checked = false;
+    }
+    else {
+      document.getElementById("hemisphere").checked = true;
+    }
     lat.setValue(epsg4326LongLat[1]);
-    lat.changeDegre();
+
+    if(epsg4326LongLat[0] < 0){
+      epsg4326LongLat[0] = - epsg4326LongLat[0];
+      document.getElementById("greenwichmeridian").checked = false;
+    }
+    else {
+      document.getElementById("greenwichmeridian").checked = true;
+    }
     lon.setValue(epsg4326LongLat[0]);
-    lon.changeDegre();
 });
 
 
