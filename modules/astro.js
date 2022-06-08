@@ -11,6 +11,30 @@ let lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
     azimuth = document.getElementById("azimuth"),
     hauteur = document.getElementById("hauteur");
 
+let map = new ol.Map({
+            layers: [
+              new ol.layer.Tile({source: new ol.source.OSM()})
+            ],
+            view: new ol.View({
+              center: [433302,6522073],
+              zoom: 4
+            }),
+            target: 'map'
+          });
+
+map.on('singleclick', function (evt) {
+    //console.log(evt.coordinate);
+
+    // convert coordinate to EPSG-4326
+    var epsg4326LongLat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    //console.log(ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326'));
+    lat.setValue(epsg4326LongLat[1]);
+    lat.changeDegre();
+    lon.setValue(epsg4326LongLat[0]);
+    lon.changeDegre();
+});
+
+
 mainLoop();
 
 function sleep(ms) {
