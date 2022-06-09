@@ -62,7 +62,6 @@ export class InputTextDMSHMS {
 
   setValue(value) {
     this.element.value = value;
-    this.changeDegre();
   }
 
   changeDegre() {

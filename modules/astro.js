@@ -36,6 +36,7 @@ map.on('singleclick', function (evt) {
       document.getElementById("hemisphere").checked = true;
     }
     lat.setValue(epsg4326LongLat[1]);
+    lat.changeDegre();
 
     if(epsg4326LongLat[0] < 0){
       epsg4326LongLat[0] = - epsg4326LongLat[0];
@@ -45,6 +46,7 @@ map.on('singleclick', function (evt) {
       document.getElementById("greenwichmeridian").checked = true;
     }
     lon.setValue(epsg4326LongLat[0]);
+    lon.changeDegre();
 });
 
 
