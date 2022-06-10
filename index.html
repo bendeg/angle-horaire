@@ -4,153 +4,179 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Angle horaire</title>
+
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/ol.css">
-  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script src="js/bootstrap.min.js"></script>
   <script type="module" src="modules/astro.js"></script>
   <script src="js/ol.js"></script>  
 </head>
   <body class="bg-light">
     <div id="root-container" class="container">
-      <p>Cette page permet de connaître l'angle horaire d'un objet céleste connaissant son ascension droite.</p>
-      <p>Connaître l'angle horaire d'un astre permet de le localiser facilement grâce à la bague de graduations en angle horaire de l'axe principal d'une monture équatoriale.</p>
-      <p>Pour plus de facilité, cliquer sur la carte pour renseigner vos coordonnées géographiques</p>
 
-      <div id="map" class="row border rounded mb-2 p-1" style="height: 300px"></div>
-
-      <div class="row border rounded mb-2 p-1">
-        <div class="row p-1">
-          <div class="col-md-4">
-            <label>Latitude (équateur par défaut)</label>
-          </div>
-          <div id="divlat" class="col-md-4">
-            <label>Degrés décimaux</label>
-          </div>
-          <div class="col-md-4">
-            <input id="hemisphere" type="checkbox" checked>
-            <label for="north">Nord</label>
-          </div>
+      <!-- https://getbootstrap.com/docs/5.0/components/navs-tabs/#javascript-behavior -->
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#angle-horaire" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Angle horaire</button>
+<!--      
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+          <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+-->        
         </div>
-        <div class="row p-1">
-          <div id="divlatd" class="col-md-4">
-            <label>Degrés</label>
-          </div>
-          <div id="divlatm" class="col-md-4">
-            <label>Minutes</label>
-          </div>
-          <div id="divlats" class="col-md-4">
-            <label>Secondes</label>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="angle-horaire" role="tabpanel" aria-labelledby="nav-home-tab">
+          
+          <p>Cette page permet de connaître l'angle horaire d'un objet céleste connaissant son ascension droite.</p>
+          <p>Connaître l'angle horaire d'un astre permet de le localiser facilement grâce à la bague de graduations en angle horaire de l'axe principal d'une monture équatoriale.</p>
+          <p>La carte permet de renseigner vos coordonnées géographiques d'un clic.</p>
+
+          <div id="map" class="row border rounded mb-2 p-1" style="height: 300px"></div>
+
+          <div class="row border rounded mb-2 p-1">
+            <div class="row p-1">
+              <div class="col-md-4">
+                <label>Latitude (équateur par défaut)</label>
+              </div>
+              <div id="divlat" class="col-md-4">
+                <label>Degrés décimaux</label>
+              </div>
+              <div class="col-md-4">
+                <input id="hemisphere" type="checkbox" checked>
+                <label for="north">Nord</label>
+              </div>
+              </div>
+              <div class="row p-1">
+              <div id="divlatd" class="col-md-4">
+                <label>Degrés</label>
+              </div>
+              <div id="divlatm" class="col-md-4">
+                <label>Minutes</label>
+              </div>
+              <div id="divlats" class="col-md-4">
+                <label>Secondes</label>
+              </div>
             </div>
-        </div>
-      </div>
-
-      <div class="row border rounded mb-2 p-1">
-        <div class="row p-1">
-          <div class="col-md-4">
-            <label>Longitude (Greenwich par défaut)</label>
           </div>
-          <div id="divlon" class="col-md-4">
-              <label>Degrés décimaux</label>
+
+          <div class="row border rounded mb-2 p-1">
+            <div class="row p-1">
+              <div class="col-md-4">
+                <label>Longitude (Greenwich par défaut)</label>
+              </div>
+              <div id="divlon" class="col-md-4">
+                  <label>Degrés décimaux</label>
+                </div>
+              <div class="col-md-4">
+                <input type="checkbox" id="greenwichmeridian" checked>
+                <label for="east">Est</label>
+              </div>
+              </div>
+              <div class="row p-1">
+              <div id="divlond" class="col-md-4">
+                <label>Degrés</label>
+              </div>
+              <div id="divlonm" class="col-md-4">
+                <label>Minutes</label>
+              </div>
+              <div id="divlons" class="col-md-4">
+                <label>Secondes</label>
+              </div>
             </div>
-          <div class="col-md-4">
-            <input type="checkbox" id="greenwichmeridian" checked>
-            <label for="east">Est</label>
           </div>
-        </div>
-        <div class="row p-1">
-          <div id="divlond" class="col-md-4">
-            <label>Degrés</label>
-          </div>
-          <div id="divlonm" class="col-md-4">
-            <label>Minutes</label>
-          </div>
-          <div id="divlons" class="col-md-4">
-            <label>Secondes</label>
-          </div>
-        </div>
-      </div>
 
-      <div class="row border rounded mb-2 p-1">
-        <div class="row p-1">
-          <div class="col-md-6">
-            <label>Ascension droite (point vernal par défaut)</label>
+          <div class="row border rounded mb-2 p-1">
+            <div class="row p-1">
+              <div class="col-md-6">
+                <label>Ascension droite (point vernal par défaut)</label>
+              </div>
+              <div id="divra" class="col-md-6">
+                <label>Degrés décimaux</label>
+              </div>
+              </div>
+              <div class="row p-1">
+              <div  id="divrad" class="col-md-4">
+                <label>Heures</label>
+              </div>
+              <div id="divram" class="col-md-4">
+                <label>Minutes</label>
+              </div>
+              <div id="divras" class="col-md-4">
+                <label>Secondes</label>
+              </div>
+            </div>
           </div>
-          <div id="divra" class="col-md-6">
-            <label>Degrés décimaux</label>
-          </div>
-        </div>
-        <div class="row p-1">
-          <div  id="divrad" class="col-md-4">
-            <label>Heures</label>
-          </div>
-          <div id="divram" class="col-md-4">
-            <label>Minutes</label>
-          </div>
-          <div id="divras" class="col-md-4">
-            <label>Secondes</label>
-          </div>
-        </div>
-      </div>
 
-      <div class="row border rounded mb-2 p-1">
-        <div class="row p-1">
-          <div class="col-md-4">
-            <label>Déclinaison (point vernal par défaut)</label>
+          <div class="row border rounded mb-2 p-1">
+            <div class="row p-1">
+              <div class="col-md-4">
+                <label>Déclinaison (point vernal par défaut)</label>
+              </div>
+              <div id="divdec" class="col-md-4">
+                <label>Degrés décimaux</label>
+              </div>
+              <div class="col-md-4">
+                <input type="checkbox" id="dechemisphere" checked>
+                <label for="decnorth">Nord</label>
+              </div>
+              </div>
+              <div class="row p-1">
+              <div id="divdecd" class="col-md-4">
+                <label>Degrés</label>
+              </div>
+              <div id="divdecm"  class="col-md-4">
+                <label>Minutes</label>
+              </div>
+              <div id="divdecs" class="col-md-4">
+                <label>Secondes</label>
+              </div>
+            </div>
           </div>
-          <div id="divdec" class="col-md-4">
-            <label>Degrés décimaux</label>
-          </div>
-          <div class="col-md-4">
-            <input type="checkbox" id="dechemisphere" checked>
-            <label for="decnorth">Nord</label>
-          </div>
-        </div>
-        <div class="row p-1">
-          <div id="divdecd" class="col-md-4">
-            <label>Degrés</label>
-          </div>
-          <div id="divdecm"  class="col-md-4">
-            <label>Minutes</label>
-          </div>
-          <div id="divdecs" class="col-md-4">
-            <label>Secondes</label>
-          </div>
-        </div>
-      </div>
 
-      <div class="row border rounded mb-2 p-1">
-        <div class="col-md-6">
-          Temps sidéral local
-        </div>
-        <div class="col-md-1">
-          <span id="localsideraltime"></span>
-        </div>
-      </div>
-      <div class="row border rounded mb-2 p-1">
-        <div class="col-md-6">
-          Angle horaire
-        </div>
-        <div class="col-md-1">
-          <span id="hourangle"></span>
-        </div>
-      </div>
-      <div class="row border rounded mb-2 p-1">
-        <div class="col-md-6">
-          Azimuth (Nord = 0°, Est = 90°)
-        </div>
-        <div class="col-md-1">
-          <span id="azimuth"></span>
-        </div>
-      </div>
-      <div class="row border rounded mb-2 p-1">
-        <div class="col-md-6">
-          Hauteur
-        </div>
-        <div class="col-md-4">
-          <span id="hauteur"></span>
-        </div>
-      </div>
-    </div>
+          <div class="row border rounded mb-2 p-1">
+            <div class="col-md-6">
+              Temps sidéral local
+            </div>
+            <div class="col-md-1">
+              <span id="localsideraltime"></span>
+            </div>
+          </div>
+
+          <div class="row border rounded mb-2 p-1">
+            <div class="col-md-6">
+              Angle horaire
+            </div>
+            <div class="col-md-1">
+              <span id="hourangle"></span>
+            </div>
+          </div>
+
+          <div class="row border rounded mb-2 p-1">
+            <div class="col-md-6">
+              Azimuth (Nord = 0°, Est = 90°)
+            </div>
+            <div class="col-md-1">
+              <span id="azimuth"></span>
+            </div>
+          </div>
+
+          <div class="row border rounded mb-2 p-1">
+            <div class="col-md-6">
+              Hauteur
+            </div>
+            <div class="col-md-4">
+              <span id="hauteur"></span>
+            </div>
+          </div>
+
+        </div><!-- tab "Angle horaire" -->
+<!--         
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> 
+-->
+    </div><!--container-->
   </body>
 </html>
