@@ -5,7 +5,6 @@ let lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
     lon = new Inputs.InputTextDMSHMS("divlon", "0.0", true),
     ra = new Inputs.InputTextDMSHMS("divra", "0.0", false),//false car HMS
     dec = new Inputs.InputTextDMSHMS("divdec", "0.0", true),
-
     localsideraltime = document.getElementById("localsideraltime"),
     hourangle = document.getElementById("hourangle"),
     azimuth = document.getElementById("azimuth"),
@@ -22,8 +21,24 @@ let map = new ol.Map({
   target: 'map'
 });
 
+if(navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable);
+}
+
+function geolocationAvailable(position) {
+  lat.setValue(position.coords.latitude);
+  lon.setValue(position.coords.longitude);
+  map.getView().setCenter(ol.proj.transform([position.coords.longitude, position.coords.latitude], 'EPSG:4326', 'EPSG:3857'), 0);
+}
+
+function geolocationNotAvailable() {
+  alert("Géolocalisation indisponible");
+}
+
 map.on('singleclick', function (evt) {
   var epsg4326LongLat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+
+  map.getView().setCenter(evt.coordinate, 0);
 
   if(epsg4326LongLat[1] < 0){
   epsg4326LongLat[1] = - epsg4326LongLat[1];
