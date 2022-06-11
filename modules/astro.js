@@ -16,7 +16,7 @@ let map = new ol.Map({
   ],
   view: new ol.View({
     center: [433302,6522073],
-    zoom: 4
+    zoom: 16
   }),
   target: 'map'
 });
@@ -28,7 +28,7 @@ if(navigator.geolocation) {
 function geolocationAvailable(position) {
   lat.setValue(position.coords.latitude);
   lon.setValue(position.coords.longitude);
-  map.getView().setCenter(ol.proj.transform([position.coords.longitude, position.coords.latitude], 'EPSG:4326', 'EPSG:3857'), 0);
+  map.getView().setCenter(ol.proj.transform([position.coords.longitude, position.coords.latitude], 'EPSG:4326', 'EPSG:3857'), 8);
 }
 
 function geolocationNotAvailable() {
@@ -60,7 +60,8 @@ map.on('singleclick', function (evt) {
   lon.setValue(epsg4326LongLat[0]);
   lon.changeDegre();
 });
-    
+
+
 mainLoop();
 
 function sleep(ms) {
