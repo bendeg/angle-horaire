@@ -1,8 +1,7 @@
 export class Algorithms {
 
-  static localSideralTime(longitude) {
-    var datetime = new Date(Date.now()), 
-        Y = datetime.getUTCFullYear(),
+  static localSideralTime(longitude, datetime = new Date(Date.now())) {
+    var Y = datetime.getUTCFullYear(),
         M = datetime.getUTCMonth() + 1,//en javascript : janvier = 0 !
         D = datetime.getUTCDate(),
         h = datetime.getUTCHours(),
