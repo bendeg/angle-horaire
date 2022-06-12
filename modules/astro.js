@@ -75,6 +75,8 @@ async function mainLoop() {
   
   while(true) {        
     await sleep(1000);
+
+    map.getView().setCenter(ol.proj.transform([lon.getValue(), lat.getValue()], 'EPSG:4326', 'EPSG:3857'), 8);
     
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
     localsideraltime.innerText = AA.Algorithms.degreeToHMS(lst);
