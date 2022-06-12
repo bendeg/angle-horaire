@@ -1,5 +1,6 @@
 import * as AA from "./astronomical-algorithms.js";
 import * as Inputs from "./inputs.js";
+import * as Map from "./map.js"
 
 let manualgeolocation = document.getElementById("checkgeolocation"),
     lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
@@ -11,16 +12,7 @@ let manualgeolocation = document.getElementById("checkgeolocation"),
     azimuth = document.getElementById("azimuth"),
     hauteur = document.getElementById("hauteur");
 
-let map = new ol.Map({
-  layers: [
-    new ol.layer.Tile({source: new ol.source.OSM()})
-  ],
-  view: new ol.View({
-    center: [433302,6522073],
-    zoom: 16
-  }),
-  target: 'map'
-});
+let map = Map.getMap([433302, 6522073]);
 
 if(navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable);
