@@ -62,7 +62,12 @@ map.on('singleclick', function (evt) {
   lon.changeDegre();
 });
 
-manualgeolocation.checked = false;
+map.on('singleclick', disableManualGeolocation);
+map.on('pointerdrag', disableManualGeolocation);
+
+function disableManualGeolocation() {
+  manualgeolocation.checked = false;
+}
 
 mainLoop();
 
