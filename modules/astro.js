@@ -76,7 +76,10 @@ async function mainLoop() {
     await sleep(1000);
 
     if(manualgeolocation.checked) {
-      map.getView().setCenter(ol.proj.transform([lon.getValue(), lat.getValue()], 'EPSG:4326', 'EPSG:3857'), 8);
+      map.getView().setCenter(ol.proj.transform(
+                                              [lon.getValue() * (document.getElementById("greenwichmeridian").checked ? 1 : -1),
+                                              lat.getValue() * (document.getElementById("hemisphere").checked ? 1 : -1)],
+                                               'EPSG:4326', 'EPSG:3857'), 8);
     }
 
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
