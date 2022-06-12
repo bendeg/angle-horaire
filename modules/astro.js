@@ -1,7 +1,8 @@
 import * as AA from "./astronomical-algorithms.js";
 import * as Inputs from "./inputs.js";
 
-let lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
+let manualgeolocation = document.getElementById("checkgeolocation"),
+    lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
     lon = new Inputs.InputTextDMSHMS("divlon", "0.0", true),
     ra = new Inputs.InputTextDMSHMS("divra", "0.0", false),//false car HMS
     dec = new Inputs.InputTextDMSHMS("divdec", "0.0", true),
@@ -61,6 +62,7 @@ map.on('singleclick', function (evt) {
   lon.changeDegre();
 });
 
+manualgeolocation.checked = false;
 
 mainLoop();
 
@@ -75,6 +77,10 @@ async function mainLoop() {
   
   while(true) {        
     await sleep(1000);
+
+    if(manualgeolocation.checked) {
+      map.getView().setCenter(ol.proj.transform([lon.getValue(), lat.getValue()], 'EPSG:4326', 'EPSG:3857'), 8);
+    }
 
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
     localsideraltime.innerText = AA.Algorithms.degreeToHMS(lst);
