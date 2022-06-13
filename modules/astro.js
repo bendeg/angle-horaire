@@ -2,6 +2,12 @@ import * as AA from "./astronomical-algorithms.js";
 import * as Inputs from "./inputs.js";
 import * as Map from "./map.js"
 
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  maximumAge: 30000,
+  timeout: 27000
+};
+
 let manualgeolocation = document.getElementById("checkgeolocation"),
     lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
     lon = new Inputs.InputTextDMSHMS("divlon", "0.0", true),
@@ -15,7 +21,7 @@ let manualgeolocation = document.getElementById("checkgeolocation"),
 let map = Map.getMap([433302, 6522073]);
 
 if(navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable);
+  navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable, geolocationOptions);
 }
 
 function geolocationAvailable(position) {
