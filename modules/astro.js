@@ -20,7 +20,9 @@ if(navigator.geolocation) {
 
 function geolocationAvailable(position) {
   lat.setValue(position.coords.latitude);
+  lat.changeDegre();
   lon.setValue(position.coords.longitude);
+  lon.changeDegre();
   map.getView().setCenter(ol.proj.transform([position.coords.longitude, position.coords.latitude], 'EPSG:4326', 'EPSG:3857'), 8);
 }
 
