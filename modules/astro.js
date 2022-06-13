@@ -91,11 +91,10 @@ async function mainLoop() {
     }
 
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
-    localsideraltime.innerText = AA.Algorithms.degreeToHMS(lst);
+    localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
     
     ha = lst - parseFloat(ra.getValue());
-    hourangle.innerText = AA.Algorithms.degreeToHMS(ha);
-
+    hourangle.innerText = AA.Algorithms.degreeToHMSDMS(ha, true, true);
     azimutalCoordinates = AA.Algorithms.equatorialToAzimutal(
                               ha, 
                               parseFloat(lat.getValue()) * (document.getElementById("hemisphere").checked ? 1 : -1),

@@ -45,22 +45,6 @@ export class Algorithms {
     return stg;
   }
 
-  static degreeToHMS(degreeDecimal) {
-    var string  = "",
-        temp    = degreeDecimal % 360;
-
-    if(temp < 0) temp += 360;
-
-    temp /= 15;
-    string += String(Math.trunc(temp)).padStart(2, '0') + ":";
-    temp = 60 * (temp - Math.trunc(temp));
-    string += String(Math.trunc(temp)).padStart(2, '0') + ":"
-    temp = 60 * (temp - Math.trunc(temp));
-    string += String(temp.toFixed(0)).padStart(2, '0');
-    
-    return string
-  }
-
   static equatorialToAzimutal(ha, latitude, declination) {
     var A = (
                 Math.atan2(
@@ -83,5 +67,31 @@ export class Algorithms {
       A : A,
       h : h
     };
+  }
+
+  static degreeToHMSDMS(degreeDecimal, toHMS = true, toString = true) {
+    var string  = "",
+        h = degreeDecimal % 360, m, s,
+        ratioHMSDMS = toHMS ? 15 : 1;
+
+    if(h < 0) h += 360;
+
+    h /= ratioHMSDMS;
+    string += String(Math.trunc(h)).padStart(2, '0') + ":";
+    
+    m = 60 * (h - Math.trunc(h));
+    string += String(Math.trunc(m)).padStart(2, '0') + ":"
+    
+    s = 60 * (m - Math.trunc(m));
+    string += String(s.toFixed(0)).padStart(2, '0');
+    
+    if(toString)
+      return string;
+    else 
+      return {
+        h: Math.trunc(h),
+        m: Math.trunc(m),
+        s: s
+      };
   }
 }
