@@ -21,8 +21,8 @@
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#angle-horaire" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Angle horaire</button>
+          <button class="nav-link" id="nav-data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab" aria-controls="nav-data" aria-selected="false">Données</button>
 <!--      
-          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
           <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
 -->        
         </div>
@@ -204,8 +204,38 @@
           </div>
 
         </div><!-- tab "Angle horaire" -->
+
+        <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="nav-data-tab">
+          <div class="row border rounded mb-2 p-1">
+            <div class="row p-1">
+              <div class="col-md-6">
+                UT
+              </div>
+              <div class="col-md-6">
+                <span id="ut"></span>
+              </div>
+            </div>
+
+            <div class="row p-1">
+              <div class="col-md-6">
+                &#916;T (en secondes)
+              </div>
+              <div class="col-md-6">
+                <span id="deltat"></span>
+              </div>
+            </div>
+
+            <div class="row p-1">
+              <div class="col-md-6">
+                TD
+              </div>
+              <div class="col-md-6">
+                <span id="td"></span>
+              </div>
+            </div>
+          </div>
+        </div><!-- tab "Données"-->
 <!--         
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> 
 -->
     </div><!--container-->

@@ -164,16 +164,28 @@ export class Algorithms {
   }
 
   static td(year, month, day, hour, minute, second) {
-    let datetime = new Date(year, month - 1, day, hour, minute, second);
-    console.log(datetime);
+    let datetime = new Date(year, month - 1, day, hour, minute, second),
+        utcYear =  datetime.getUTCFullYear(),
+        utcMonth = datetime.getUTCMonth(),
+        utcDay = datetime.getUTCDate(),
+        utcHour = datetime.getUTCHours(),
+        utcMinute = datetime.getUTCMinutes(),
+        utcSecond = datetime.getUTCSeconds();
+    //console.log(datetime);
 
-    return new Date(year, month - 1, day, hour, minute, second + this.deltaT(year, month, day, hour, minute, second));
+    return new Date(utcYear, utcMonth, utcDay, utcHour, utcMinute, utcSecond + this.deltaT(year, month, day, hour, minute, second));
   }
 
   static ut(year, month, day, hour, minute, second) {
-    let datetime = new Date(year, month - 1, day, hour, minute, second);
-    console.log(datetime);
+    let datetime = new Date(year, month - 1, day, hour, minute, second),
+        utcYear =  datetime.getUTCFullYear(),
+        utcMonth = datetime.getUTCMonth(),
+        utcDay = datetime.getUTCDate(),
+        utcHour = datetime.getUTCHours(),
+        utcMinute = datetime.getUTCMinutes(),
+        utcSecond = datetime.getUTCSeconds();
+    //console.log(datetime);
 
-    return new Date(year, month - 1, day, hour, minute, second - this.deltaT(year, month, day, hour, minute, second));
+    return new Date(utcYear, utcMonth, utcDay, utcHour, utcMinute, utcSecond);
   }
 }

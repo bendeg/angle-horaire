@@ -9,7 +9,7 @@ const geolocationOptions = {
 };
 
 let now,
-    datetime = document.getElementById("datetime"),
+    checkboxnow = document.getElementById("datetime"),
     datetimeyear = document.getElementById("datetimeyear"),
     datetimemonth = document.getElementById("datetimemonth"),
     datetimeday = document.getElementById("datetimeday"),
@@ -24,11 +24,15 @@ let now,
     localsideraltime = document.getElementById("localsideraltime"),
     hourangle = document.getElementById("hourangle"),
     azimuth = document.getElementById("azimuth"),
-    hauteur = document.getElementById("hauteur");
+    hauteur = document.getElementById("hauteur"),
+    
+    ut = document.getElementById("ut"),
+    deltat = document.getElementById("deltat"),
+    td = document.getElementById("td");
 
 let map = Map.getMap([433302, 6522073]);
 
-datetime.checked = true;
+checkboxnow.checked = true;
 
 if(navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable, geolocationOptions);
@@ -79,9 +83,8 @@ function disableManualGeolocation() {
   manualgeolocation.checked = false;
 }
 
-tests();
-
-  mainLoop();
+//tests();
+mainLoop();
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -95,7 +98,7 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
 
-    if(datetime.checked) {
+    if(checkboxnow.checked) {
       now = new Date(Date.now());
       datetimeyear.value = now.getFullYear();
       datetimemonth.value = now.getMonth() + 1;
@@ -121,7 +124,27 @@ async function mainLoop() {
                                                'EPSG:4326', 'EPSG:3857'), 8);
     }
 
-//    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
+    ut.innerText = AA.Algorithms.ut(now.getFullYear(),
+                                    now.getMonth() + 1,
+                                    now.getDate(),
+                                    now.getHours(),
+                                    now.getMinutes(),
+                                    now.getSeconds());
+
+    deltat.innerText = AA.Algorithms.deltaT(now.getFullYear(),
+                                            now.getMonth() + 1,
+                                            now.getDate(),
+                                            now.getHours(),
+                                            now.getMinutes(),
+                                            now.getSeconds());
+    
+    td.innerText = AA.Algorithms.td(now.getFullYear(),
+                                    now.getMonth() + 1,
+                                    now.getDate(),
+                                    now.getHours(),
+                                    now.getMinutes(),
+                                    now.getSeconds());
+
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), now);
     localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
     
@@ -140,7 +163,7 @@ async function mainLoop() {
 function tests() {
   var maintenant = new Date(Date.now());
   /*
-console.log(AA.Algorithms.deltaT(
+  console.log(AA.Algorithms.deltaT(
   maintenant.getUTCFullYear(),
   maintenant.getUTCMonth() + 1,
   maintenant.getUTCDate(),
