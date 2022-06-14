@@ -8,7 +8,15 @@ const geolocationOptions = {
   timeout: 27000
 };
 
-let manualgeolocation = document.getElementById("checkgeolocation"),
+let now,
+    datetime = document.getElementById("datetime"),
+    datetimeyear = document.getElementById("datetimeyear"),
+    datetimemonth = document.getElementById("datetimemonth"),
+    datetimeday = document.getElementById("datetimeday"),
+    datetimehour = document.getElementById("datetimehour"),
+    datetimeminute = document.getElementById("datetimeminute"),
+    datetimesecond = document.getElementById("datetimesecond"),
+    manualgeolocation = document.getElementById("checkgeolocation"),
     lat = new Inputs.InputTextDMSHMS("divlat", "0.0", true),
     lon = new Inputs.InputTextDMSHMS("divlon", "0.0", true),
     ra = new Inputs.InputTextDMSHMS("divra", "0.0", false),//false car HMS
@@ -19,6 +27,8 @@ let manualgeolocation = document.getElementById("checkgeolocation"),
     hauteur = document.getElementById("hauteur");
 
 let map = Map.getMap([433302, 6522073]);
+
+datetime.checked = true;
 
 if(navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable, geolocationOptions);
@@ -69,7 +79,9 @@ function disableManualGeolocation() {
   manualgeolocation.checked = false;
 }
 
-mainLoop();
+tests();
+
+  mainLoop();
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -83,6 +95,25 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
 
+    if(datetime.checked) {
+      now = new Date(Date.now());
+      datetimeyear.value = now.getFullYear();
+      datetimemonth.value = now.getMonth() + 1;
+      datetimeday.value = now.getDate();
+      datetimehour.value = now.getHours();
+      datetimeminute.value = now.getMinutes();
+      datetimesecond.value = now.getSeconds();
+    }
+    else {
+      now = new Date(parseInt(datetimeyear.value),
+                     parseInt(datetimemonth.value) - 1,
+                     parseInt(datetimeday.value),
+                     parseInt(datetimehour.value),
+                     parseInt(datetimeminute.value),
+                     parseInt(datetimesecond.value));
+      //console.log(now);
+    }
+
     if(manualgeolocation.checked) {
       map.getView().setCenter(ol.proj.transform(
                                               [lon.getValue() * (document.getElementById("greenwichmeridian").checked ? 1 : -1),
@@ -90,7 +121,8 @@ async function mainLoop() {
                                                'EPSG:4326', 'EPSG:3857'), 8);
     }
 
-    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
+//    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1) );
+    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), now);
     localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
     
     ha = lst - parseFloat(ra.getValue());
@@ -105,3 +137,32 @@ async function mainLoop() {
   }
 }
 
+function tests() {
+  var maintenant = new Date(Date.now());
+  /*
+console.log(AA.Algorithms.deltaT(
+  maintenant.getUTCFullYear(),
+  maintenant.getUTCMonth() + 1,
+  maintenant.getUTCDate(),
+  maintenant.getUTCHours(),
+  maintenant.getUTCMinutes(),
+  maintenant.getUTCSeconds())
+  ); */
+
+  console.log(AA.Algorithms.td(
+    333,
+    2,
+    6,
+    6,
+    0,
+    0
+    ));
+
+console.log("GM+1 -> UT : " + new Date(
+  maintenant.getUTCFullYear(),
+  maintenant.getUTCMonth() + 1,
+  maintenant.getUTCDate(),
+  maintenant.getUTCHours(),
+  maintenant.getUTCMinutes(),
+  maintenant.getUTCSeconds()));
+}
