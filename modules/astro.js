@@ -15,13 +15,12 @@ let date_options = {
   year: "numeric",
   hour: "numeric",
   minute: "numeric",
-  second: "numeric"/* ,
-  timeZone: "Europe/Brussels",
-  timeZoneName: "short" */
+  second: "numeric"
 };
 
-let now,
-    checkboxnow = document.getElementById("datetime"),
+let localtime = document.getElementById("localtime"),
+    nowUTC,
+    checkboxnowUTC = document.getElementById("datetime"),
     datetimeyear = document.getElementById("datetimeyear"),
     datetimemonth = document.getElementById("datetimemonth"),
     datetimeday = document.getElementById("datetimeday"),
@@ -38,13 +37,12 @@ let now,
     azimuth = document.getElementById("azimuth"),
     hauteur = document.getElementById("hauteur"),
     
-    ut = document.getElementById("ut"),
     deltat = document.getElementById("deltat"),
     td = document.getElementById("td");
 
 let map = Map.getMap([433302, 6522073]);
 
-checkboxnow.checked = true;
+checkboxnowUTC.checked = true;
 
 if(navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(geolocationAvailable, geolocationNotAvailable, geolocationOptions);
@@ -110,17 +108,19 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
 
-    if(checkboxnow.checked) {
-      now = new Date(Date.now());
-      datetimeyear.value = now.getFullYear();
-      datetimemonth.value = now.getMonth() + 1;
-      datetimeday.value = now.getDate();
-      datetimehour.value = now.getHours();
-      datetimeminute.value = now.getMinutes();
-      datetimesecond.value = now.getSeconds();
+    localtime.innerText = new Date(Date.now()).toLocaleString('fr-BE', date_options);
+
+    if(checkboxnowUTC.checked) {
+      nowUTC = new Date(Date.now());
+      datetimeyear.value = nowUTC.getUTCFullYear();
+      datetimemonth.value = nowUTC.getUTCMonth() + 1;
+      datetimeday.value = nowUTC.getUTCDate();
+      datetimehour.value = nowUTC.getUTCHours();
+      datetimeminute.value = nowUTC.getUTCMinutes();
+      datetimesecond.value = nowUTC.getUTCSeconds();
     }
     else {
-      now = new Date(parseInt(datetimeyear.value),
+      nowUTC = new Date(parseInt(datetimeyear.value),
                      parseInt(datetimemonth.value) - 1,
                      parseInt(datetimeday.value),
                      parseInt(datetimehour.value),
@@ -136,35 +136,21 @@ async function mainLoop() {
                                                'EPSG:4326', 'EPSG:3857'), 8);
     }
 
-    ut.innerText = AA.Algorithms.ut(now.getFullYear(),
-                                    now.getMonth() + 1,
-                                    now.getDate(),
-                                    now.getHours(),
-                                    now.getMinutes(),
-                                    now.getSeconds()).toLocaleString('fr-BE', date_options);
-
-    ut.innerText = AA.Algorithms.ut(now.getFullYear(),
-                                    now.getMonth() + 1,
-                                    now.getDate(),
-                                    now.getHours(),
-                                    now.getMinutes(),
-                                    now.getSeconds()).toLocaleString('fr-BE', date_options);
-
-    deltat.innerText = AA.Algorithms.deltaT(now.getFullYear(),
-                                            now.getMonth() + 1,
-                                            now.getDate(),
-                                            now.getHours(),
-                                            now.getMinutes(),
-                                            now.getSeconds());
+    deltat.innerText = AA.Algorithms.deltaT(nowUTC.getFullYear(),
+                                            nowUTC.getMonth() + 1,
+                                            nowUTC.getDate(),
+                                            nowUTC.getHours(),
+                                            nowUTC.getMinutes(),
+                                            nowUTC.getSeconds());
     
-    td.innerText = AA.Algorithms.td(now.getFullYear(),
-                                    now.getMonth() + 1,
-                                    now.getDate(),
-                                    now.getHours(),
-                                    now.getMinutes(),
-                                    now.getSeconds()).toLocaleString('fr-BE', date_options);
+    td.innerText = AA.Algorithms.td(nowUTC.getFullYear(),
+                                    nowUTC.getMonth(),
+                                    nowUTC.getDate(),
+                                    nowUTC.getHours(),
+                                    nowUTC.getMinutes(),
+                                    nowUTC.getSeconds()).toLocaleString('fr-BE', date_options);
 
-    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), now);
+    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), nowUTC);
     localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
     
     ha = lst - parseFloat(ra.getValue());

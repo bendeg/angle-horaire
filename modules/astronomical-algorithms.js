@@ -155,7 +155,6 @@ export class Algorithms {
     if(firstpass) parameters = parameters.reverse();
 
     if(parameters.length > 1) {
-      //console.log("size : " + parameters.length + "param = " + parameters[parameters.length - 1] + " value = " + value);
       return parameters.pop() + value * this.polynomial(parameters, value, false); 
     }
     else if(parameters.length == 1)
@@ -164,28 +163,6 @@ export class Algorithms {
   }
 
   static td(year, month, day, hour, minute, second) {
-    let datetime = new Date(year, month - 1, day, hour, minute, second),
-        utcYear =  datetime.getUTCFullYear(),
-        utcMonth = datetime.getUTCMonth(),
-        utcDay = datetime.getUTCDate(),
-        utcHour = datetime.getUTCHours(),
-        utcMinute = datetime.getUTCMinutes(),
-        utcSecond = datetime.getUTCSeconds();
-    //console.log(datetime);
-
-    return new Date(utcYear, utcMonth, utcDay, utcHour, utcMinute, utcSecond + this.deltaT(year, month, day, hour, minute, second));
-  }
-
-  static ut(year, month, day, hour, minute, second) {
-    let datetime = new Date(year, month - 1, day, hour, minute, second),
-        utcYear =  datetime.getUTCFullYear(),
-        utcMonth = datetime.getUTCMonth(),
-        utcDay = datetime.getUTCDate(),
-        utcHour = datetime.getUTCHours(),
-        utcMinute = datetime.getUTCMinutes(),
-        utcSecond = datetime.getUTCSeconds();
-    //console.log(datetime);
-
-    return new Date(utcYear, utcMonth, utcDay, utcHour, utcMinute, utcSecond);
+    return new Date(year, month, day, hour, minute, second + this.deltaT(year, month, day, hour, minute, second));
   }
 }

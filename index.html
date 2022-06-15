@@ -19,9 +19,17 @@
 
       <div class="row border rounded mb-2 p-1">
         <div class="row p-1">
+          <div class="col-md-6">
+            <label>Heure locale</label>
+          </div>
+          <div class="col-md-6">
+            <span id="localtime"></span>
+          </div>
+        </div>
+        <div class="row p-1">
           <div class="col-md-12">
             <input id="datetime" type="checkbox" checked>
-            <label>Maintenant</label>
+            <label>Maintenant en temps universel (UT)</label>
           </div>
         </div>
         <div class="row p-1">
@@ -64,7 +72,7 @@
  -->
         </div>
       </nav>
-      
+
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="angle-horaire" role="tabpanel" aria-labelledby="nav-home-tab">
           
@@ -208,16 +216,6 @@
         </div><!-- tab "Angle horaire" -->
 
         <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="nav-data-tab">
-          <div class="row border rounded mb-2 p-1">
-            <div class="row p-1">
-              <div class="col-md-6">
-                UT
-              </div>
-              <div class="col-md-6">
-                <span id="ut"></span>
-              </div>
-            </div>
-
             <div class="row p-1">
               <div class="col-md-6">
                 &#916;T (en secondes)
