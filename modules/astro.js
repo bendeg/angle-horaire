@@ -119,15 +119,13 @@ async function mainLoop() {
       datetimeminute.value = nowUTC.getUTCMinutes();
       datetimesecond.value = nowUTC.getUTCSeconds();
     }
-    else {
-      nowUTC = new Date(parseInt(datetimeyear.value),
-                     parseInt(datetimemonth.value) - 1,
-                     parseInt(datetimeday.value),
-                     parseInt(datetimehour.value),
-                     parseInt(datetimeminute.value),
-                     parseInt(datetimesecond.value));
-      //console.log(now);
-    }
+
+    nowUTC = new Date(parseInt(datetimeyear.value),
+                    parseInt(datetimemonth.value) - 1,
+                    parseInt(datetimeday.value),
+                    parseInt(datetimehour.value),
+                    parseInt(datetimeminute.value),
+                    parseInt(datetimesecond.value));
 
     if(manualgeolocation.checked) {
       map.getView().setCenter(ol.proj.transform(
@@ -149,6 +147,7 @@ async function mainLoop() {
                                     nowUTC.getHours(),
                                     nowUTC.getMinutes(),
                                     nowUTC.getSeconds()).toLocaleString('fr-BE', date_options);
+
 
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), nowUTC);
     localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
