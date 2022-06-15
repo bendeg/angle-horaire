@@ -8,15 +8,15 @@ const geolocationOptions = {
   timeout: 27000
 };
 
-let utc_date_options = {
+let date_options = {
   weekday: "long",
   day: "numeric",
   month: "long",
   year: "numeric",
   hour: "numeric",
   minute: "numeric",
-  second: "numeric",
-  timeZone: "UTC"/* ,
+  second: "numeric"/* ,
+  timeZone: "Europe/Brussels",
   timeZoneName: "short" */
 };
 
@@ -136,7 +136,19 @@ async function mainLoop() {
                                                'EPSG:4326', 'EPSG:3857'), 8);
     }
 
-    ut.innerText = now.toLocaleString('fr-BE', utc_date_options);
+    ut.innerText = AA.Algorithms.ut(now.getFullYear(),
+                                    now.getMonth() + 1,
+                                    now.getDate(),
+                                    now.getHours(),
+                                    now.getMinutes(),
+                                    now.getSeconds()).toLocaleString('fr-BE', date_options);
+
+    ut.innerText = AA.Algorithms.ut(now.getFullYear(),
+                                    now.getMonth() + 1,
+                                    now.getDate(),
+                                    now.getHours(),
+                                    now.getMinutes(),
+                                    now.getSeconds()).toLocaleString('fr-BE', date_options);
 
     deltat.innerText = AA.Algorithms.deltaT(now.getFullYear(),
                                             now.getMonth() + 1,
@@ -150,7 +162,7 @@ async function mainLoop() {
                                     now.getDate(),
                                     now.getHours(),
                                     now.getMinutes(),
-                                    now.getSeconds()).toLocaleString('fr-BE', utc_date_options);
+                                    now.getSeconds()).toLocaleString('fr-BE', date_options);
 
     lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), now);
     localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
