@@ -19,6 +19,7 @@ let date_options = {
 };
 
 let localtime = document.getElementById("localtime"),
+    now,
     nowUTC,
     checkboxnowUTC = document.getElementById("datetime"),
     datetimeyear = document.getElementById("datetimeyear"),
@@ -108,16 +109,24 @@ async function mainLoop() {
   while(true) {        
     await sleep(1000);
 
-    localtime.innerText = new Date(Date.now()).toLocaleString('fr-BE', date_options);
+    if(manualgeolocation.checked) {
+      map.getView().setCenter(ol.proj.transform(
+                                              [lon.getValue() * (document.getElementById("greenwichmeridian").checked ? 1 : -1),
+                                              lat.getValue() * (document.getElementById("hemisphere").checked ? 1 : -1)],
+                                               'EPSG:4326', 'EPSG:3857'), 8);
+    }
 
+
+    now = new Date(Date.now());
+    localtime.innerText = now.toLocaleString('fr-BE', date_options);
+    
     if(checkboxnowUTC.checked) {
-      nowUTC = new Date(Date.now());
-      datetimeyear.value = nowUTC.getUTCFullYear();
-      datetimemonth.value = nowUTC.getUTCMonth() + 1;
-      datetimeday.value = nowUTC.getUTCDate();
-      datetimehour.value = nowUTC.getUTCHours();
-      datetimeminute.value = nowUTC.getUTCMinutes();
-      datetimesecond.value = nowUTC.getUTCSeconds();
+      datetimeyear.value = now.getUTCFullYear();
+      datetimemonth.value = now.getUTCMonth() + 1;
+      datetimeday.value = now.getUTCDate();
+      datetimehour.value = now.getUTCHours();
+      datetimeminute.value = now.getUTCMinutes();
+      datetimesecond.value = now.getUTCSeconds();
     }
 
     nowUTC = new Date(parseInt(datetimeyear.value),
@@ -126,13 +135,6 @@ async function mainLoop() {
                     parseInt(datetimehour.value),
                     parseInt(datetimeminute.value),
                     parseInt(datetimesecond.value));
-
-    if(manualgeolocation.checked) {
-      map.getView().setCenter(ol.proj.transform(
-                                              [lon.getValue() * (document.getElementById("greenwichmeridian").checked ? 1 : -1),
-                                              lat.getValue() * (document.getElementById("hemisphere").checked ? 1 : -1)],
-                                               'EPSG:4326', 'EPSG:3857'), 8);
-    }
 
     deltat.innerText = AA.Algorithms.deltaT(nowUTC.getFullYear(),
                                             nowUTC.getMonth() + 1,
@@ -149,7 +151,15 @@ async function mainLoop() {
                                     nowUTC.getSeconds()).toLocaleString('fr-BE', date_options);
 
 
-    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), nowUTC);
+    lst = AA.Algorithms.localSideralTime(parseFloat(lon.getValue()) * (document.getElementById("greenwichmeridian").checked ? 1 : -1), 
+                                          new Date(Date.UTC(parseInt(datetimeyear.value),
+                                          parseInt(datetimemonth.value) - 1,
+                                          parseInt(datetimeday.value),
+                                          parseInt(datetimehour.value),
+                                          parseInt(datetimeminute.value),
+                                          parseInt(datetimesecond.value))))
+                                          ;
+
     localsideraltime.innerText = AA.Algorithms.degreeToHMSDMS(lst, true, true);
     
     ha = lst - parseFloat(ra.getValue());
@@ -185,11 +195,12 @@ function tests() {
     0
     ));
 
-console.log("GM+1 -> UT : " + new Date(
-  maintenant.getUTCFullYear(),
-  maintenant.getUTCMonth() + 1,
-  maintenant.getUTCDate(),
-  maintenant.getUTCHours(),
-  maintenant.getUTCMinutes(),
-  maintenant.getUTCSeconds()));
+  console.log("GM+1 -> UT : " + new Date(
+    maintenant.getUTCFullYear(),
+    maintenant.getUTCMonth() + 1,
+    maintenant.getUTCDate(),
+    maintenant.getUTCHours(),
+    maintenant.getUTCMinutes(),
+    maintenant.getUTCSeconds())
+    );
 }
