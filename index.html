@@ -17,6 +17,43 @@
   <body class="bg-light">
     <div id="root-container" class="container">
 
+      <div class="row border rounded mb-2 p-1">
+        <div class="row p-1">
+          <div class="col-md-12">
+            <input id="datetime" type="checkbox" checked>
+            <label>Maintenant</label>
+          </div>
+        </div>
+        <div class="row p-1">
+          <div class="col-md-4">
+            <label>Année</label>
+            <input id="datetimeyear" type="text">
+          </div>
+          <div class="col-md-4">
+            <label>Mois</label>
+            <input id="datetimemonth" type="text">
+          </div>
+          <div class="col-md-4">
+            <label>Jour</label>
+            <input id="datetimeday" type="text">
+          </div>
+        </div>
+        <div class="row p-1">
+          <div class="col-md-4">
+            <label>Heure</label>
+            <input id="datetimehour" type="text">
+          </div>
+          <div class="col-md-4">
+            <label>Minute</label>
+            <input id="datetimeminute" type="text">
+          </div>
+          <div class="col-md-4">
+            <label>Seconde</label>
+            <input id="datetimesecond" type="text">
+          </div>
+        </div>
+      </div>
+
       <!-- https://getbootstrap.com/docs/5.0/components/navs-tabs/#javascript-behavior -->
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -27,6 +64,7 @@
  -->
         </div>
       </nav>
+      
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="angle-horaire" role="tabpanel" aria-labelledby="nav-home-tab">
           
@@ -36,42 +74,6 @@
             (assurez-vous d'avoir appelé la page avec l'URL commençant par "https:// et non "http://")</p>
 
           <div id="map" class="row border rounded mb-2 p-1" style="height: 300px"></div>
-          <div class="row border rounded mb-2 p-1">
-            <div class="row p-1">
-              <div class="col-md-12">
-                <input id="datetime" type="checkbox" checked>
-                <label>Maintenant</label>
-              </div>
-            </div>
-            <div class="row p-1">
-              <div class="col-md-4">
-                <label>Année</label>
-                <input id="datetimeyear" type="text">
-              </div>
-              <div class="col-md-4">
-                <label>Mois</label>
-                <input id="datetimemonth" type="text">
-              </div>
-              <div class="col-md-4">
-                <label>Jour</label>
-                <input id="datetimeday" type="text">
-              </div>
-            </div>
-            <div class="row p-1">
-              <div class="col-md-4">
-                <label>Heure</label>
-                <input id="datetimehour" type="text">
-              </div>
-              <div class="col-md-4">
-                <label>Minute</label>
-                <input id="datetimeminute" type="text">
-              </div>
-              <div class="col-md-4">
-                <label>Seconde</label>
-                <input id="datetimesecond" type="text">
-              </div>
-            </div>
-            </div>
           
           <div id="geolocation" class="row border rounded mb-2 p-1">
             <div class="col-md-12">
